@@ -1,0 +1,20 @@
+{% extends 'Intern/base.html' %}
+{% load static %}
+{% block body %}
+    <div class= "d-flex flex-column align-items-center justify-content-center">
+        <div class="text-center">
+            <img class="rounded-circle account-img" src="{% static 'logo.jpg' %}" style="width: 30%; height: 30%;">
+        </div>
+        <div><h1 style="text-align: center; color: white">InternHub</h1></div>
+        <h5 style="text-align: center; color: #ffffff9a">Connecting Students with Potential Employers</h5>
+        <br>
+        <div class="d-flex flex-column" style="text-align: center;">
+           <div>
+                <p style="color: white;">Have An Account?</p> <a class="btn btn-primary" href="{% url 'student-login' %}" role="button">Login as Student</a> <a class="btn btn-primary" href="{% url 'company-login' %}" role="button">Login as Company</a>
+           </div>
+           <div>
+               <br> <p style="color: white;">Have No Account?</p> <a class="btn btn-primary" href="{% url 'student-register' %}" role="button" style="margin-bottom: 5px;">Register as Student</a> <a class="btn btn-primary" href="{% url 'company-register' %}" role="button" style="margin-bottom: 5px;">Register as Company</a>
+           </div>
+        </div>
+    </div>
+{% endblock %}

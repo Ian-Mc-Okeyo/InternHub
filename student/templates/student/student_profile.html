@@ -1,0 +1,51 @@
+{% extends 'Intern/base.html' %}
+{% block body %}
+    <br>
+    <div class="content-section" style="background-color: #ffffffcb;">
+        <form method="POST" >
+            {% csrf_token %}
+            <fieldset class="row g-3">
+                <legend class="'border-bottom mb-4" style="color: rgb(6, 202, 6);">PROVIDE STUDENT DETAILS</legend>
+                <div class="col-md-6">
+                    {{ form.username.errors }}
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.First_name.errors }}
+                    {{ form.First_name.label_tag }}
+                    {{ form.First_name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.First_name.errors }}
+                    {{ form.Middle_name.label_tag }}
+                    {{ form.Middle_name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.Last_name.errors }}
+                    {{ form.Last_name.label_tag }}
+                    {{ form.Last_name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.phoneNumber.label_tag }}
+                    {{ form.phoneNumber }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.school.label_tag }}
+                    {{ form.school }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.course.label_tag }}
+                    {{ form.course }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.yearOfStudy.label_tag }}
+                    {{ form.yearOfStudy }}
+                </div>
+            </fieldset>
+            <div class="form-group" style="margin-top: 10px;">
+                <button class="btn btn-outline-info" typr="submit">SUBMIT</button>
+            </div>
+        </form>
+    </div>
+{% endblock body %}

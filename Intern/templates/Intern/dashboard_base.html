@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'Intern/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'Intern/main.css' %}">
+        <title>InternHub</title>
+    </head>
+    <body style="background-color: rgb(11, 43, 66);">
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: rgba(11, 76, 122, 0.856); padding: 15px;">
+              <div class="container">
+                <div style="margin-right: 10px; margin-left: -10px;">
+                    <button class="open-menu-button" onclick="openNav()"><span class="navbar-toggler-icon"></span></button>
+                </div>
+                <a class="navbar-brand mr-4" href="#">InternHub</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                      <a class="nav-item nav-link" href="{% url 'student-dashboard' %}">Home</a>
+                  </div>
+                  <!-- Navbar Right Side -->
+                  <div class="navbar-nav ms-auto" style="text-align: right;">
+                        <a class="nav-item nav-link" href="#">Logout</a>
+                        <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}" style="color:greenyellow">Edit Profile</a>
+                        <a class="nav-item nav-link" href="#" style="color:greenyellow">View Attendance</a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+        </header>
+        <br>
+        <br>
+            <div id="myNav" class="overlay">
+                <!-- Overlay content -->
+                <div class="overlay-content">
+                    <a href="#">Home</a>
+                    <a href="#">My Orders</a>
+                    <a href="#">My Cart</a>
+                    <a href="#">Messages</a>
+                    <a href="#">Change Details</a>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+                <div class="sidebar">
+                    <a class="active" href="#home">Home</a>
+                    <a class="nav-item nav-link" href="#"><b>View Available Companies</b></a>
+                    <a class="nav-item nav-link" href="#"><b>View Company feedback</b></a>
+                    <a class="nav-item nav-link" href="#"><b>View Interview Calls</b></a>
+                    <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}"><b>Edit Profile</b></a>
+                    <a class="nav-item nav-link" href="#"><b>View Interview Calls</b></a>
+                    
+                </div>                  
+                  <div class="content" style="margin-top: 20px; text-align: center;">
+                    {% if messages %}
+                      {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                          {{ message }}
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    {% block body %}
+                    {% endblock %}
+                  </div> 
+        <script src="{% static 'script/bootstrap.min.js' %}"></script>
+    </body>
+</html>
+<style>
+    body {
+      margin: 0;
+      font-family: "Lato", sans-serif;
+    }
+    
+    .sidebar {
+      margin-top: 20px;
+      padding: 0;
+      width: 200px;
+      background-color: #ffffffcb;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
+    
+    .sidebar a {
+      display: block;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+    }
+     
+    .sidebar a.active {
+      background-color: #0b4c7ada;
+      color: white;
+    }
+    
+    .sidebar a:hover:not(.active) {
+      background-color: #555;
+      color: white;
+    }
+    
+    div.content {
+      margin-left: 200px;
+      padding: 1px 16px;
+      height: 1000px;
+    }
+    .open-menu-button{
+    border: none;
+    background-color: rgba(0, 0, 0, 0.493);
+    color: rgb(255, 217, 0);
+    padding: 1% 10%;
+    font-size: 1.5em;
+    border-radius: 5px;
+    }
+    
+    @media screen and (max-width: 600px) {
+      .sidebar {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.9); /* Black w/opacity */
+        overflow-x: hidden; /* Disable horizontal scroll */
+        transition: 0.3s;
+      }
+      .open-menu-button{
+          display: block;
+      }
+      .sidebar a {float: left;}
+      div.content {margin-left: 0;}
+    }
+    @media screen and (min-width: 601px){
+        .open-menu-button{
+          display: none;
+      }
+        #myNav{
+            display: none;
+        }
+        .overlay{
+            display: none;
+        }
+    }
+    
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }
+    .open-menu-button{
+        border: none;
+        background-color: rgba(0, 0, 0, 0.493);
+        color: rgb(255, 217, 0);
+        padding: 1% 10%;
+        font-size: 1.5em;
+        border-radius: 5px;
+    }
+    /* The Overlay (background) */
+    .overlay {
+        /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+        height: 100%;
+        width: 0%;
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.9); /* Black w/opacity */
+        overflow-x: hidden; /* Disable horizontal scroll */
+        transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+    }
+    
+    /* Position the content inside the overlay */
+    .overlay-content {
+        position: relative;
+
+        top: 25%; /* 25% from the top */
+        width: 100%; /* 100% width */
+        text-align: center; /* Centered text/links */
+        margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+    }
+    
+    /* The navigation links inside the overlay */
+    .overlay a {
+        padding: 8px;
+        text-decoration: none;
+        font-size: 200%;
+        color: #78d8f5cb;
+        display: block; /* Display block instead of inline */
+        transition: 0.3s; /* Transition effects on hover (color) */
+    }
+    
+    /* When you mouse over the navigation links, change their color */
+    .overlay a:hover, .overlay a:focus {
+        color: #f1f1f1;
+    }
+    
+    /* Position the close button (top right corner) */
+    .overlay .closebtn {
+        position: relative;
+        top: 20px;
+        right: 45px;
+        font-size: 60px;
+    }
+    
+    /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+    @media screen and (max-height: 450px) {
+        .overlay a {font-size: 20px}
+        .overlay .closebtn {
+        font-size: 17px;
+        top: 15px;
+        right: 35px;
+        }
+    }
+    @media screen and (max-width: 450px) {
+        .overlay a {font-size: 17px}
+        .overlay .closebtn {
+        font-size: 30px;
+        top: 15px;
+        right: 35px;
+        }
+    }
+</style>
+<script>
+    {
+        var x = true
+        //Thank you God for this type of brain
+        function openNav() {
+            if(x==true){
+                document.getElementById("myNav").style.width = "50%";
+                x = false
+            }
+            else{
+                document.getElementById("myNav").style.width = "0%";
+                x = true
+            }
+        }
+    
+        /* Close when someone clicks on the "x" symbol inside the overlay */
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0%";
+        }
+    
+    }
+    </script>

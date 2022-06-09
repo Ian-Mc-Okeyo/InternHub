@@ -1,0 +1,35 @@
+{% extends 'Intern/dashboard_base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="content-section row d-flex flex-column align-items-center justify-content-center" style="background-color: rgb(11, 43, 66); border: none">
+    <div class="content-section col-md-6" style="background-color: #ffffffcb;">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="border-bottom mb-4" style="color: blue">Update User Profile</legend>
+                {{ u_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit" style="margin: 20px;" name="u_form">SUBMIT</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+        </div>
+    </div>
+
+    <div class="content-section col-md-6" style="background-color: #ffffffcb;">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="border-bottom mb-4" style="color: blue">Update Student Profile</legend>
+                {{ p_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit" style="margin: 20px;" name="p_form">SUBMIT</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'Intern/base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <div class="content-section d-flex flex-column align-items-center justify-content-center" style="background-color: #ffffffcb;">
+        <form method="POST" >
+            {% csrf_token %}
+            <fieldset class="row g-3">
+                <legend class="'border-bottom mb-4" style="color: blue;">PROVIDE COMPANY DETAILS</legend>
+                <div class="col-md-6">
+                    {{ form.company_name.errors }}
+                    {{ form.company_name.label_tag }}
+                    {{ form.company_name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.field.errors }}
+                    {{ form.field.label_tag }}
+                    {{ form.field }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.country.errors }}
+                    {{ form.country.label_tag }}
+                    {{ form.country }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.city.errors }}
+                    {{ form.city.label_tag }}
+                    {{ form.city }}
+                </div>
+            </fieldset>
+            <div class="form-group" style="margin-top: 10px;">
+                <button class="btn btn-outline-info" typr="submit">SUBMIT</button>
+            </div>
+        </form>
+    </div>
+{% endblock body %}

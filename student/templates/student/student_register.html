@@ -1,0 +1,24 @@
+{% extends 'Intern/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="content-section row d-flex flex-column align-items-center justify-content-center" style="background-color: rgb(11, 43, 66); border: none">
+    <div class="content-section col-md-6" style="background-color: #ffffffcb;">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="border-bottom mb-4" style="color: blue">Student Registration</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" typr="submit">Sign Up</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have an Account?<a class="ml-2" href="#">Sign In</a>
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}
