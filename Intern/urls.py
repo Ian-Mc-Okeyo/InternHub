@@ -2,6 +2,7 @@ from django.urls import path
 from Intern import views as Intern_views
 from student import views as Student_views
 from company import views as Company_views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', Intern_views.home_page, name='home'),
@@ -10,5 +11,6 @@ urlpatterns = [
     path('student-register/student-profile', Student_views.create_student_profile, name='student-profile'),
     path('company-register/', Company_views.company_register, name='company-register'),
     path('company-logn/', Company_views.company_login, name='company-login'),
-    path('comapby-register/company-profile', Company_views.create_company_profile, name='company-profile')
+    path('company-register/company-profile', Company_views.create_company_profile, name='company-profile'),
+    path('logout/',auth_views.LogoutView.as_view(template_name='Intern/home.html'), name='logout')
 ]

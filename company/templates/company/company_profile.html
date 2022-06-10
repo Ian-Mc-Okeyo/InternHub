@@ -1,9 +1,6 @@
 {% extends 'Intern/base.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
-    <br>
-    <br>
-    <br>
     <div class="content-section d-flex flex-column align-items-center justify-content-center" style="background-color: #ffffffcb;">
         <form method="POST" >
             {% csrf_token %}
@@ -28,6 +25,11 @@
                     {{ form.city.errors }}
                     {{ form.city.label_tag }}
                     {{ form.city }}
+                </div>
+                <div class="col-md-12">
+                    {{ form.description.errors }}
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
                 </div>
             </fieldset>
             <div class="form-group" style="margin-top: 10px;">

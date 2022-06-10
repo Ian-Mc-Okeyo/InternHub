@@ -25,7 +25,7 @@
                   </div>
                   <!-- Navbar Right Side -->
                   <div class="navbar-nav ms-auto" style="text-align: right;">
-                        <a class="nav-item nav-link" href="#">Logout</a>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                         <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}" style="color:greenyellow">Edit Profile</a>
                         <a class="nav-item nav-link" href="#" style="color:greenyellow">View Attendance</a>
                   </div>
@@ -48,7 +48,7 @@
             </div>
                 <div class="sidebar">
                     <a class="active" href="#home">Home</a>
-                    <a class="nav-item nav-link" href="#"><b>View Available Companies</b></a>
+                    <a class="nav-item nav-link" href="{% url 'view-companies' %}"><b>View Available Companies</b></a>
                     <a class="nav-item nav-link" href="#"><b>View Company feedback</b></a>
                     <a class="nav-item nav-link" href="#"><b>View Interview Calls</b></a>
                     <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}"><b>Edit Profile</b></a>

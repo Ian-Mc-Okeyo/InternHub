@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Intern.apps.InternConfig',
+    'bootstrap_datepicker_plus',
     'crispy_forms',
     'company.apps.CompanyConfig',
     'student.apps.StudentConfig',
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -127,6 +128,9 @@ MEDIA_URL = '/media/'#where the images will accessed in the browser. Important f
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#where the file uploads are stored
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'home'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

@@ -1,4 +1,4 @@
-{% extends 'student/dashboard_base.html' %}
+{% extends 'company/dashboard_base.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
 <div class="content-section row d-flex flex-column align-items-center justify-content-center" style="background-color: rgb(11, 43, 66); border: none">
@@ -6,7 +6,7 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset>
-                <legend class="border-bottom mb-4" style="color: blue">Update User Profile</legend>
+                <legend class="border-bottom mb-4" style="color: blue">Update Company Details</legend>
                 {{ u_form|crispy }}
             </fieldset>
             <div class="form-group">
@@ -21,7 +21,7 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset>
-                <legend class="border-bottom mb-4" style="color: blue">Update Student Profile</legend>
+                <legend class="border-bottom mb-4" style="color: blue">Update Company Profile</legend>
                 {{ p_form|crispy }}
             </fieldset>
             <div class="form-group">

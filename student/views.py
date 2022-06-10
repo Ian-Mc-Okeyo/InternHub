@@ -6,6 +6,9 @@ from .models import Student
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required#for login required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView
+from company.models import Company, InternJob
 
 def student_register(request):
     if request.method=='POST':
@@ -70,7 +73,8 @@ def create_student_profile(request):
 
 @login_required
 def student_dashboard(request):
-    return render(request, 'student/student_dashboard.html')
+    jobs = InternJob.objects.all()
+    return render(request, 'student/student_dashboard.html', {'jobs': jobs})
 
 @login_required
 def edit_student_profile(request):
@@ -96,3 +100,9 @@ def edit_student_profile(request):
         p_form = EditStudentProfileForm(instance = request.user.student)
         u_form = EditStudentUserForm(instance=request.user)
     return render(request, 'student/edit_student_profile.html', {'p_form': p_form, 'u_form': u_form})
+
+class ListCompanies(LoginRequiredMixin, ListView):
+    model = Company
+    template_name= 'student/view_companies.html'
+    context_object_name = 'Companies'
+    paginate_by = 5
