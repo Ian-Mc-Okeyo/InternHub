@@ -1,0 +1,47 @@
+{% extends 'student/dashboard_base.html' %}
+{% block body %}
+    <br>
+    <article class="media content-section">
+        <img  class="rounded-circle article-img" src="{{ company.profilePic.url }}" >
+        <div class="media-body">
+            <h2><a class="article-title" href="{% url 'view-company' company.pk %}">{{ company.user.username }}</a></h2>
+            <div class="article-metadata">
+                <b style="color: blue;" >{{ company.field }}</b>
+                <small class="text-muted">{{ company.city }}</small>
+                <small class="text-muted">{{ company.country }}</small>
+            </div>
+            <p class="article-content">{{ company.description }}</p>
+            <p class="article-content">
+                <h4>Contact Info</h4>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">{{ company.user.email }}</li>
+                </ul>
+            </p>
+            <h4 style="color: blue;">Available Internship Opportunities</h4>
+            {% if company.internjob_set.all|length < 1 %}
+                <li class="list-group-item list-group-item-light">No Internships Opportunities Currently</li>
+                <a class="btn btn-primary" href="#" role="button">Apply For Internship</a>
+            {% else %}
+                <h4 style="color: #09c009;">Total: {{company.internjob_set.all|length}}</h4>
+                <table class="table table-success table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Job Title</th>
+                            <th scope="col">Application Deadline</th>
+                            <th scope="col"></th>
+                        <tbody>
+                            {% for job in company.internjob_set.all %}
+                                <tr>
+                                    <td>{{ job.title }}</td>
+                                    <td style="color: #09c009;">{{ job.deadline }}</td>
+                                    <td><a class="btn btn-primary" href="{% url 'view-job' job.pk %}" role="button">View</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </thead>
+                </table>
+            {% endif %}
+        </div>
+
+    </article>
+{% endblock %}

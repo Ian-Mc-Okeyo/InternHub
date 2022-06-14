@@ -1,18 +1,24 @@
-{% extends 'student/dashboard_base.html' %}
+{% extends 'company/dashboard_base.html' %}
 {% block body %}
 <br>
-{% for company in Companies %}
+{% for intern in Interns %}
     <article class="media content-section">
-        <img  class="rounded-circle article-img" src="{{ company.profilePic.url }}" >
+        <img  class="rounded-circle article-img" src="{{ intern.profilePic.url }}" >
         <div class="media-body">
-            <h2><a class="article-title" href="{% url 'view-company' company.pk %}">{{ company.user.username }}</a></h2>
+            <h2><a class="article-title" href="#">{{ intern.user.username }}</a></h2>
             <div class="article-metadata">
-                <b style="color: blue;" >{{ company.field }}</b>
-                <small class="text-muted">{{ company.country }}</small>
-                <small class="text-muted">{{ company.city }}</small>
+                <b style="color: blue;" >{{ intern.field }}</b>
+                <b style="color: #09c009;" >{{ intern.headline }}</b>
+                <small class="text-muted">{{ intern.school }}</small>
             </div>
-            <p class="article-content">{{ company.description }}</p>
-            <a class="btn btn-primary" href="#" role="button">Apply For Internship</a>
+            <p class="article-content">
+                <i>Name: </i> <b>{{ intern.user.first_name }} {{ intern.middleName }} {{ intern.user.last_name }}</b>
+                <i>Course: </i> <b>{{ intern.course }}</b>
+                <i>Year Of Study: </i> <b>{{ intern.yearOfStudy }}</b>
+                <i>Phone No: </i> <b>{{ intern.phoneNo }}</b>
+                <i>Email: </i> <b>{{ intern.user.email }}</b>
+            </p>
+            <a class="btn btn-primary" href="#" role="button">Call Interview</a>
         </div>
     </article>
     {% endfor %}

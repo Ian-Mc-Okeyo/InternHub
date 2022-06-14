@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
+
+from student.models import Student
 from .forms import CompanyRegisterForm, CompanyProfileForm, CompanyLoginForm, EditCompanyProfileForm, EditCompanyUserForm, PostInternJobForm
 from .models import Company, InternJob
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 def company_register(request):
     if request.method=='POST':
@@ -106,4 +110,10 @@ def post_intern_job(request):
     else:
         form = PostInternJobForm()
     return render(request, 'company/post_intern_job.html', {'form': form})
+
+class ListAvailableIternsView(LoginRequiredMixin, ListView):
+    model = Student
+    template_name = 'company/view_available_interns.html'
+    context_object_name = 'Interns'
+    paginate_by = 5
 

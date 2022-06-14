@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from student.models import Student
+from django.utils import timezone
 
 
 class Company(models.Model):
@@ -20,3 +22,12 @@ class InternJob(models.Model):
    recommendation = models.CharField(max_length=20)
    cover_letter = models.CharField(max_length=20)
    requirements = models.TextField()
+
+class JobApplication(models.Model):
+    job = models.ForeignKey(InternJob, on_delete = models.CASCADE)
+    student = models.ForeignKey(Student, on_delete = models.CASCADE)
+    time_applied = models.DateTimeField(default=timezone.now)
+    resume = models.FileField(upload_to='resume', null=True)
+    recommendation = models.FileField(upload_to='recommendation', null=True)
+    transcript = models.FileField(upload_to='transcript', null=True)
+    cover_letter = models.FileField(upload_to='cover_letter', null=True)

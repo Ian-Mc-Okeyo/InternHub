@@ -9,6 +9,8 @@ class Student(models.Model):
     school = models.CharField(max_length=255, null=False)
     course = models.CharField(max_length=255, null=False)
     yearOfStudy = models.CharField(max_length=10, null=False)
+    headline = models.CharField(max_length=50, null=True)
+    field = models.CharField(max_length=50, null=True)
     profilePic = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     def __str__(self):

@@ -27,7 +27,7 @@
                   <div class="navbar-nav ms-auto" style="text-align: right;">
                         <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                         <a class="nav-item nav-link" href="{% url 'edit-company-profile' %}" style="color:greenyellow">Edit Company  Profile</a>
-                        <a class="nav-item nav-link" href="#" style="color:greenyellow">View Attendance</a>
+                        <a class="nav-item nav-link" href="{% url 'post-intern-job' %}" style="color:greenyellow">Post Job</a>
                   </div>
                 </div>
               </div>
@@ -38,18 +38,18 @@
             <div id="myNav" class="overlay">
                 <!-- Overlay content -->
                 <div class="overlay-content">
-                    <a href="#">Home</a>
-                    <a href="#">My Orders</a>
-                    <a href="#">My Cart</a>
-                    <a href="#">Messages</a>
-                    <a href="#">Change Details</a>
-                    <a href="#">Logout</a>
+                  <a href="#">Home</a>
+                  <a href="#"><b>View Applications</b></a>
+                  <a href="{% url 'company-view-interns' %}"><b>View Available Interns</b></a>
+                  <a href="{% url 'post-intern-job' %}"><b>Post Internship Job</b></a>
+                  <a href="#"><b>View Applications to your posted Jobs</b></a>
+                  <a href="{% url 'edit-company-profile' %}"><b>Edit Profile</b></a>
                 </div>
             </div>
                 <div class="sidebar">
                     <a class="active" href="#">Home</a>
                     <a class="nav-item nav-link" href="#"><b>View Applications</b></a>
-                    <a class="nav-item nav-link" href="#"><b>View Available Interns</b></a>
+                    <a class="nav-item nav-link" href="{% url 'company-view-interns' %}"><b>View Available Interns</b></a>
                     <a class="nav-item nav-link" href="{% url 'post-intern-job' %}"><b>Post Internship Job</b></a>
                     <a class="nav-item nav-link" href="#"><b>View Applications to your posted Jobs</b></a>
                     <a class="nav-item nav-link" href="{% url 'edit-company-profile' %}"><b>Edit Profile</b></a>

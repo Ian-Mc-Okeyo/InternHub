@@ -1,0 +1,58 @@
+{% extends 'student/dashboard_base.html' %}
+{% block body %}
+    <br>
+    {% for job in Internships %}
+        <article class="media content-section">
+            <img  class="rounded-circle article-img" src="{{ job.company.profilePic.url }}">
+            <div class="media-body">
+                <h2><a class="article-title" href="#">{{ job.company.user.username }}</a></h2>
+                <div class="article-metadata">
+                    <b style="color: blue;" >{{ job.title }}</b>
+                    <b style="color: #09c009;" ><i style="color: black;">Application Deadline:</i> {{ job.deadline }}</b>
+                </div>
+                <p class="article-content">
+                    {{ job.requirements }}
+                </p>
+                <p class="article-content">
+                    <h4>Required Documents:</h4>
+                    <ul class="list-group">
+                        {% if job.transcript == 'Yes' %}
+                            <li class="list-group-item list-group-item-light">Transcript</li>
+                        {% endif %}
+                        {% if job.resume == 'Yes' %}
+                            <li class="list-group-item list-group-item-light">Resume</li>
+                        {% endif %}
+                        {% if job.recommendation == 'Yes' %}
+                            <li class="list-group-item list-group-item-light">Letter Of Recommendation</li>
+                        {% endif %}
+                        {% if job.cover_letter == 'Yes' %}
+                            <li class="list-group-item list-group-item-light">Cover Letter</li>
+                        {% endif %}
+                       <b>-</b>
+                    </ul>
+                </p>
+                <a class="btn btn-primary" href="{% url 'apply-job' job.pk %}" role="button">Apply</a>
+            </div>
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+    {% endif %}
+{% endblock %}

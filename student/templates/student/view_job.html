@@ -1,0 +1,37 @@
+{% extends 'student/dashboard_base.html' %}
+{% block body %}
+    <br>
+    <article class="media content-section">
+        <img  class="rounded-circle article-img" src="{{ job.company.profilePic.url }}" >
+        <div class="media-body">
+            <h2><a class="article-title" href="#">{{ job.company.user.username }}</a></h2>
+            <div class="article-metadata">
+                <b style="color: blue;" >{{ job.title }}</b>
+                <b style="color: #09c009;" ><i style="color: black;">Application Deadline:</i> {{ job.deadline }}</b>
+                <small class="text-muted">{{ intern.school }}</small>
+            </div>
+            <p class="article-content">
+                {{ job.requirements }}
+            </p>
+            <p class="article-content">
+                <h4>Required Documents:</h4>
+                <ul class="list-group">
+                    {% if job.transcript == 'Yes' %}
+                        <li class="list-group-item list-group-item-light">Transcript</li>
+                    {% endif %}
+                    {% if job.resume == 'Yes' %}
+                        <li class="list-group-item list-group-item-light">Resume</li>
+                    {% endif %}
+                    {% if job.recommendation == 'Yes' %}
+                        <li class="list-group-item list-group-item-light">Letter Of Recommendation</li>
+                    {% endif %}
+                    {% if job.cover_letter == 'Yes' %}
+                        <li class="list-group-item list-group-item-light">Cover Letter</li>
+                    {% endif %}
+                    <li class="list-group-item list-group-item-light"><b>{{ doc_req }}</b></li>
+                  </ul>
+            </p>
+            <a class="btn btn-primary" href="{% url 'apply-job' job.pk %}" role="button">Apply</a>
+        </div>
+    </article>
+{% endblock %}

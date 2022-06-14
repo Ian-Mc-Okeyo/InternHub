@@ -1,0 +1,45 @@
+{% extends 'student/dashboard_base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="content-section row d-flex flex-column align-items-center justify-content-center" style="background-color: rgb(11, 43, 66); border: none">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="content-section col-md-6" style="background-color: #ffffffcb;">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset>
+                    <legend class="border-bottom mb-4" style="color: blue">{{ job.title }} Job Application</legend>
+
+                    {% if job.resume == 'Yes' %}
+                        <label class="form-label" for="customFile">Resume</label>
+                        {{ form.resume }}
+                    {% endif %}
+
+                    {% if job.recommendation == 'Yes' %}
+                        <label class="form-label" for="customFile">Recommendation Letter</label>
+                        {{ form.recommendation }}
+                    {% endif %}
+
+                    {% if job.transcript == 'Yes' %}
+                        <label class="form-label" for="customFile">Transcript</label>
+                        {{ form.transcript }}
+                    {% endif %}
+
+                    {% if job.cover_letter == 'Yes' %}
+                        <label class="form-label" for="customFile">Cover Letter</label>
+                        {{ form.cover_letter }}
+                    {% endif %}
+                    <b>{{ doc_req }}</b>
+
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" typr="submit">Apply</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+            </div>
+        </div>
+    </div>
+{% endblock %}
