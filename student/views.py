@@ -16,6 +16,7 @@ def student_register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            redirect('donor-page')
             messages.success(request, f'Account created for {username}!')
             return redirect('student-profile')
         else:

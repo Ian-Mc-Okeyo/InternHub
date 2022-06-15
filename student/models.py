@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    middleName = models.CharField(max_length=200, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)#student.user.username
+    middleName = models.CharField(max_length=200, null=True)#student.middlename
     phoneNo = models.CharField(max_length=14, null=True)
     school = models.CharField(max_length=255, null=False)
     course = models.CharField(max_length=255, null=False)
