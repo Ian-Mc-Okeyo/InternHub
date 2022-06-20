@@ -3,12 +3,18 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import StudentRegisterForm, StudentProfileForm, StudentLoginForm, EditStudentProfileForm, EditStudentUserForm, ApplyJobForm
 from .models import Student
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required#for login required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
-from company.models import Company, InternJob, JobApplication
+from company.models import Company, InternJob, Interview, JobApplication
+
+def student_missing(request):
+    check_student = Student.objects.filter(user=request.user).first()
+    if not check_student:
+        messages.warning(request, 'Error')
+        return True
 
 def student_register(request):
     if request.method=='POST':
@@ -16,7 +22,6 @@ def student_register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            redirect('donor-page')
             messages.success(request, f'Account created for {username}!')
             return redirect('student-profile')
         else:
@@ -74,11 +79,16 @@ def create_student_profile(request):
 
 @login_required
 def student_dashboard(request):
+    if student_missing(request):
+        logout(request)
     jobs = InternJob.objects.all()
     return render(request, 'student/student_dashboard.html', {'jobs': jobs})
 
 @login_required
 def edit_student_profile(request):
+    if student_missing(request):
+        logout(request)
+    
     if request.method == 'POST':
         p_form = EditStudentProfileForm(request.POST, request.FILES, instance=request.user.student)
         u_form = EditStudentUserForm(request.POST, instance=request.user)
@@ -116,6 +126,9 @@ class ListInternships(LoginRequiredMixin, ListView):
 
 @login_required
 def view_job(request, param):
+    if student_missing(request):
+        logout(request)
+    
     job = InternJob.objects.filter(pk=param).first()
     if not job:
         messages.warning(request, 'Job does not exist')
@@ -128,6 +141,9 @@ def view_job(request, param):
 
 @login_required
 def view_company(request, param):
+    if student_missing(request):
+        logout(request)
+    
     company = Company.objects.filter(pk=param).first()
     print(company.internjob_set.all()) #querying all the internjobs of the company
     if not company:
@@ -138,26 +154,35 @@ def view_company(request, param):
 
 @login_required
 def apply_job(request, param):
+    if student_missing(request):
+        logout(request)
+    
     job = InternJob.objects.filter(pk=param).first()
-    if request.method == 'POST':
-        form = ApplyJobForm(request.POST, request.FILES)
-        if form.is_valid:
-            current_student = Student.objects.filter(user=request.user).first()
-            new_application = JobApplication(student= current_student, job=job)
-            if job.resume=='Yes':
-                new_application.resume = request.FILES['resume']
-            if job.recommendation == 'Yes':
-                new_application.recommendation = request.FILES['recommendation']
-            if job.transcript == 'Yes':
-                new_application.transcript = request.FILES['transcript']
-            if job.cover_letter == 'Yes':
-                new_application.cover_letter = request.FILES['cover_letter']
-            
-            new_application.save()
-            messages.success(request, 'Application has been Sent')
-            return redirect('apply-job', param)
+    student = Student.objects.filter(user = request.user).first()
+    check_application = JobApplication.objects.filter(job=job, student=student).first()
+    if check_application:
+        messages.warning(request, 'You already applied for this intern job')
+        return redirect('view-job', param=param)
     else:
-        form = ApplyJobForm()
+        if request.method == 'POST':
+            form = ApplyJobForm(request.POST, request.FILES)
+            if form.is_valid:
+                current_student = Student.objects.filter(user=request.user).first()
+                new_application = JobApplication(student= current_student, job=job)
+                if job.resume=='Yes':
+                    new_application.resume = request.FILES['resume']
+                if job.recommendation == 'Yes':
+                    new_application.recommendation = request.FILES['recommendation']
+                if job.transcript == 'Yes':
+                    new_application.transcript = request.FILES['transcript']
+                if job.cover_letter == 'Yes':
+                    new_application.cover_letter = request.FILES['cover_letter']
+                
+                new_application.save()
+                messages.success(request, 'Application has been Sent')
+                return redirect('view-job', param=param)
+        else:
+            form = ApplyJobForm()
     doc_req = ''
     if job.transcript == 'No' and job.recommendation == 'No' and job.resume == 'No' and job.cover_letter == 'No':
         doc_req='Are You sure you want to make This application?'
@@ -168,3 +193,42 @@ def apply_job(request, param):
         'doc_req': doc_req
     }
     return render(request, 'student/apply_job.html', context=context)
+
+@login_required
+def view_feedback(request):
+    student = Student.objects.filter(user=request.user).first()
+    applications = JobApplication.objects.filter(student=student).all()
+
+    context = {
+        'applications': applications
+    }
+    return render(request, 'student/view_feedback.html', context=context)
+
+@login_required
+def withdraw_application(request, param):
+    if student_missing(request):
+        logout(request)
+    
+    application = JobApplication.objects.filter(pk=param).first()
+    application.delete()
+    messages.success(request, 'Application Successfully Deleted 🫤')
+    return redirect('view-feedback')
+
+@login_required
+def view_interview_details(request, param):
+    if student_missing(request):
+        logout(request)
+    
+    application = JobApplication.objects.filter(pk=param).first()
+    interview = Interview.objects.filter(job=application.job, student=application.student).first()
+    print(interview.job.title)
+    return render(request, 'student/view_interview_details.html', {'interview': interview})
+
+@login_required
+def list_student_interviews(request):
+    if student_missing(request):
+        logout(request)
+    
+    student = Student.objects.filter(user=request.user).first()
+    interviews = Interview.objects.filter(student=student).all()
+    return render(request, 'student/view_student_views.html', {'interviews': interviews})

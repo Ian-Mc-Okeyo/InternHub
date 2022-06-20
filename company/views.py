@@ -1,10 +1,11 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
 
 from student.models import Student
-from .forms import CompanyRegisterForm, CompanyProfileForm, CompanyLoginForm, EditCompanyProfileForm, EditCompanyUserForm, PostInternJobForm
-from .models import Company, InternJob
+from .forms import CompanyRegisterForm, CompanyProfileForm, CompanyLoginForm, EditCompanyProfileForm, EditCompanyUserForm, PostInternJobForm, CreateInterviewForm
+from .models import Company, InternJob, Interview, JobApplication
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -33,8 +34,12 @@ def company_login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username = username, password=password)
             if user is not None:
+                check_student = Student.objects.filter(user=user).first()
                 check_company = Company.objects.filter(user=user).first()#checking if the company has created a company profile
-                if check_company:
+                if check_student:
+                    messages.warning(request, 'Mbwakni, you are a Student 😡😡!!')
+                    return redirect('student-login')
+                elif check_company:
                     login(request, user)
                     messages.success(request, 'Successful login')
                     return redirect('company-dashboard')
@@ -68,7 +73,8 @@ def create_company_profile(request):
 
 @login_required
 def company_dashboard(request):
-    return render(request, 'company/company_dashboard.html')
+    interns = Student.objects.all()
+    return render(request, 'company/company_dashboard.html', {'interns': interns})
 
 @login_required
 def edit_company_profile(request):
@@ -117,3 +123,52 @@ class ListAvailableIternsView(LoginRequiredMixin, ListView):
     context_object_name = 'Interns'
     paginate_by = 5
 
+@login_required
+def view_company_job_applications(request):
+    company = Company.objects.filter(user=request.user).first()
+    jobs = InternJob.objects.filter(company=company).all()
+    context = {
+        'jobs': jobs
+    }
+    return render(request, 'company/view_comp_job_appl.html', context=context)
+
+@login_required
+def view_job_applicants(request, param):
+    job = InternJob.objects.filter(pk=param).first()
+    applications = job.jobapplication_set.filter(feedback='Pending').all()
+    context = {
+        'applications': applications, 
+        'job': job
+    }
+    print(job.recommendation)
+    return render(request, 'company/view_job_applicants.html', context=context)
+
+@login_required
+def reject_job_application(request, jobpk, applpk):
+    application = JobApplication.objects.filter(pk=applpk).first()
+    application.feedback='Rejected'
+    application.save()
+    messages.success(request, 'Application has been successfullly rejected')
+    return redirect('job-applicants', param=jobpk)
+
+@login_required
+def createInterview(request, param):
+    application = JobApplication.objects.filter(pk=param).first()
+    if request.method == 'POST':
+        form = CreateInterviewForm(request.POST)
+        if form.is_valid():
+            interview = Interview(job=application.job, student=application.student, time=form.cleaned_data.get('time'), type=form.cleaned_data.get('type'), 
+                                        description=form.cleaned_data.get('description'))
+            application.feedback = 'Accepted'
+            application.save()
+            interview.save()
+            messages.success(request, 'Interview has been successfully Scheduled')
+            return redirect('job-applicants', param=application.job.pk)
+    else:
+        form = CreateInterviewForm()
+    
+    context = {
+        'form': form,
+        'application': application
+    }
+    return render(request, 'company/create_interview.html', context=context)

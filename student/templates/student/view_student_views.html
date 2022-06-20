@@ -1,0 +1,23 @@
+{% extends 'student/dashboard_base.html' %}
+{% block body %}
+    <br>
+    {% for interview in interviews %}
+        <article class="media content-section">
+            <img  class="rounded-circle article-img" src="{{ interview.job.company.profilePic.url }}" >
+            <div class="media-body">
+                <h2><a class="article-title" href="{% url 'view-company' interview.job.company.pk %}">{{ interview.job.company.user.username }}</a></h2>
+                <div class="article-metadata">
+                    <b style="color: blue;" >{{ interview.job.title }}</b>
+                </div>
+                <p class="article-content">{{ interview.description }}</p>
+                <p class="article-content">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light" style="color: #09c009">Time: {{ interview.time }}</li>
+                        <li class="list-group-item list-group-item-light">Interview type: {{ interview.type }}</li>
+                    </ul>
+                </p>
+            </div>
+
+        </article>
+    {% endfor %}
+{% endblock %}

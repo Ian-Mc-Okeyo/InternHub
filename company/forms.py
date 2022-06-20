@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from pkg_resources import Requirement
-from .models import Company, InternJob
+from .models import Company, InternJob, Interview
 
 class CompanyRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -49,7 +49,7 @@ class PostInternJobForm(forms.Form):
     recommendation = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'placeholder': 'Job Title'}), required=True, label=("Is Letter Of Recommendation required?"))
     cover_letter = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'placeholder': 'Job Title'}), required=True, label=("Is Cover Letter required?"))
     requirements = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': 'Kindly list other requirements like skills, Education level and any other the company might require the intern to meet'}))
-    deadline = forms.DateTimeField(
+    deadline = forms.DateTimeField(required=True,
         input_formats=['%d/%m/%Y %H:%M'],
         widget=forms.DateTimeInput(attrs={
             'class': 'form-control datetimepicker-input',
@@ -58,6 +58,18 @@ class PostInternJobForm(forms.Form):
         })
     )
 
-    # class Meta:
-    #     model= InternJob
-    #     fields = ['title', 'resume', 'transcript', 'recommendation', 'cover_letter', 'deadline', 'requirements']
+class CreateInterviewForm(forms.Form):
+    time = forms.DateTimeField(required=True,
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1',
+            'type': 'datetime-local'
+        })
+    )
+    choices = (
+        ('Online Interview', 'OnlineInterview'),
+        ('Physical Interview', 'PhysicalInterview')
+    )
+    type = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'placeholder': 'Job Title'}), required=True, label=("Interview type"))
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': 'Kindly list other requirements like skills, Education level and any other the company might require the intern to meet'}))

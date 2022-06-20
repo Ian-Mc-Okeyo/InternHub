@@ -13,144 +13,29 @@
             <h4 style="color: #111111;">City: {{ user.company.city }}</h4>
        </div>
    </div>
-   <h3 style="color: blue;" style="text-align: center;">Available Internships</h3>
+   <h3 style="color: blue;" style="text-align: center;">Available Interns</h3>
    <div style="overflow-x:auto; overflow-y: auto;">
         <h4 style="color: rgb(9, 192, 9);">Total: {{Attendees|length}}</h4>
         <table class="table table-success table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">company Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">PhoneNo</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">School</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">Year of Study</th>
                         <th scope="col">Field</th>
-                        <th scope="col">LOcation</th>
+                        <th scope="col"></th>
                     <tbody>
+                        {% for intern in interns %}
                             <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
+                                <td>{{ intern.user.username }}</td>
+                                <td>{{ intern.school }}</td>
+                                <td>{{ intern.course }}</td>
+                                <td>{{ intern.yearOfStudy }}</td>
+                                <td>{{ intern.field }}</td>
+                                <td><a class="btn btn-primary" role="button" href="#">View</a></td>
                             </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
-                            <tr>
-                                <td>Liatech Solutions</td>
-                                <td>liatech@gmail.com</td>
-                                <td>0788388921</td>
-                                <td>Software</td>
-                                <td>Nairobi</td>
-                            </tr>
+                        {% endfor %}
                     </tbody>
                 </thead>
 

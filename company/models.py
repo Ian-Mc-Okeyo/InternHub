@@ -31,3 +31,12 @@ class JobApplication(models.Model):
     recommendation = models.FileField(upload_to='recommendation', null=True)
     transcript = models.FileField(upload_to='transcript', null=True)
     cover_letter = models.FileField(upload_to='cover_letter', null=True)
+    feedback = models.CharField(max_length=20, default = 'Pending')
+
+class Interview(models.Model):
+    job = models.ForeignKey(InternJob, on_delete = models.CASCADE)
+    student = models.ForeignKey(Student, on_delete = models.CASCADE)
+    time = models.DateTimeField()
+    type = models.CharField(max_length=30)
+    description = models.TextField()
+

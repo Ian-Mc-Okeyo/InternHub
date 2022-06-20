@@ -1,0 +1,27 @@
+{% extends 'student/dashboard_base.html' %}
+{% block body %}
+<br>
+<h3 style="color: blue;" style="text-align: center;">Job Applications</h3>
+<br>
+<div style="overflow-x:auto; overflow-y: auto;">
+     <table class="table table-success table-striped table-hover">
+             <thead>
+                 <tr>
+                     <th scope="col">Job Title</th>
+                     <th scope="col">Number Of Appicants</th>
+                     <th scope="col"></th>
+                 <tbody>
+                    {% for job in jobs %}
+                         <tr>
+                             <td>{{ job.title }}</td>
+                             <td>{{ job.jobapplication_set.all|length }}</td>
+                             <td><a class="btn btn-primary" href="{% url 'job-applicants' job.pk %}" role="button">View Applicants</a></td>
+                         </tr>   
+                    {% endfor %}         
+                 </tbody>
+             </thead>
+
+     </table>
+</div>
+
+{% endblock %}

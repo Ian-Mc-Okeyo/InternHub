@@ -2,6 +2,7 @@ from dataclasses import fields
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from numpy import require
 
 from company.models import JobApplication
 from .models import Student

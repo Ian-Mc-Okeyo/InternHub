@@ -1,0 +1,101 @@
+{% extends 'student/dashboard_base.html' %}
+{% block body %}
+<br>
+<h4 style="color: #09c009;">{{ job.title }}</h4>
+{% if applications|length == 0 %}
+    <h2>No Applications Made So far or only Rejected Applications Are available</h2>
+{% else %}
+    {% for application in applications %}
+        <article class="media content-section">
+            <img  class="rounded-circle article-img" src="{{ application.job.company.profilePic.url }}" >
+            <div class="media-body">
+                <h2><a class="article-title" href="#">{{ application.job.company.user.username }}</a></h2>
+                <div class="article-metadata">
+                    <b style="color: blue;" >{{ application.job.title }}</b>
+                </div>
+                <div class="article-content row">
+                    <div class="col">
+                        {% if application.feedback == 'Pending' %}
+                            <h4 style="color: rgb(194, 194, 7);">{{ application.feedback }}...😊</h4>
+                        {% endif %}
+                        {% if application.feedback == 'Rejected' %}
+                            <h4 style="color: red;">{{ application.feedback }} X 💔💀😆🤣😂</h4>
+                        {% endif %}
+                        {% if application.feedback == 'Accepted' %}
+                            <h4 style="color: #09c009;">{{ application.feedback }}</h4>
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        <b>Uploaded Documents</b>
+                        <ul class="list-group">
+                            {% if application.job.resume == 'Yes' %}
+                                <li class="list-group-item list-group-item-light"><a href="{{ application.resume.url }}" target=”_blank” style="text-decoration: none;">Resume</a></li>
+                            {% endif %}
+                            {% if application.job.recommendation == 'Yes' %}
+                                <li class="list-group-item list-group-item-light"><a href="{{ application.recommendation.url }}" target=”_blank” style="text-decoration: none;">Recommendation Letter</a></li>
+                            {% endif %}
+                            {% if application.job.transcript == 'Yes' %}
+                                <li class="list-group-item list-group-item-light"><a href="{{ application.transcript.url }}" target=”_blank” style="text-decoration: none;">Transcript</a></li>
+                            {% endif %}
+                            {% if application.job.cover_letter == 'Yes' %}
+                                <li class="list-group-item list-group-item-light"><a href="{{ application.cover_letter.url }}" target=”_blank” style="text-decoration: none;">Cover Letter</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                {% if application.feedback == 'Accepted' %}
+                    <a class="btn btn-primary" href="{% url 'view-interview-details' application.pk %}" role="button">Check Interview</a>
+                    <a class="btn btn-primary" href="#" role="button">Turn Down</a>
+                {% endif %}
+                {% if application.feedback == 'Pending' %}
+                    <a class="btn btn-primary" href="#" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Withdraw Application</a>
+                {% endif %}
+                {% if application.feedback == 'Rejected' %}
+                    <a class="btn btn-primary" href="#" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Remove Application</a>
+                {% endif %}
+            </div>
+        </article>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                Are You sure You want to delete this Job Application? Employers will not be able to view it.
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a type="button" class="btn btn-danger" href="{% url 'delete-application' application.pk %}" role="button">Delete</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+{% endblock %}
