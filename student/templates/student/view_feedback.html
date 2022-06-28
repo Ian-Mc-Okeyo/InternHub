@@ -9,7 +9,7 @@
         <article class="media content-section">
             <img  class="rounded-circle article-img" src="{{ application.job.company.profilePic.url }}" >
             <div class="media-body">
-                <h2><a class="article-title" href="#">{{ application.job.company.user.username }}</a></h2>
+                <h2><a class="article-title" href="{% url 'view-company' application.job.company.pk %}">{{ application.job.company.user.username }}</a></h2>
                 <div class="article-metadata">
                     <b style="color: blue;" >{{ application.job.title }}</b>
                 </div>
@@ -45,7 +45,6 @@
                 </div>
                 {% if application.feedback == 'Accepted' %}
                     <a class="btn btn-primary" href="{% url 'view-interview-details' application.pk %}" role="button">Check Interview</a>
-                    <a class="btn btn-primary" href="#" role="button">Turn Down</a>
                 {% endif %}
                 {% if application.feedback == 'Pending' %}
                     <a class="btn btn-primary" href="#" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Withdraw Application</a>

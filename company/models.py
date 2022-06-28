@@ -40,3 +40,18 @@ class Interview(models.Model):
     type = models.CharField(max_length=30)
     description = models.TextField()
 
+class GeneralInterview(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    time = models.DateTimeField()
+    type = models.CharField(max_length=30)
+    description = models.TextField()
+
+class InternShipRequest(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete = models.CASCADE)
+    resume = models.FileField(upload_to='resume', null=True)
+    description = models.TextField()
+    feedback = models.CharField(max_length=20, default = 'Pending')
+
+

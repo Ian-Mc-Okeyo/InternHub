@@ -1,0 +1,80 @@
+{% extends 'company/dashboard_base.html' %}
+{% block body %}
+<br>
+<h4 style="color: #09c009;">{{ job.title }}</h4>
+{% if intern_requests|length == 0 %}
+    <h2>No requests Made So far or only Rejected requests Are available</h2>
+{% else %}
+    {% for request in intern_requests %}
+        <article class="media content-section">
+            <img  class="rounded-circle article-img" src="{{ request.student.profilePic.url }}" >
+            <div class="media-body">
+                <h2><a class="article-title" href="#">{{ request.student.user.username }}</a></h2>
+                <div class="article-metadata">
+                    <b style="color: blue;" >{{ request.student.field }}</b>
+                    <b style="color: #09c009;" >{{ request.student.headline }}</b>
+                    <small class="text-muted">{{ request.student.school }}</small>
+                </div>
+                <div class="article-content row">
+                    <div class="col">
+                        <i>Name: </i> <b>{{ request.student.user.first_name }} {{ request.student.middleName }} {{ request.student.user.last_name }}</b>
+                        <i>Course: </i> <b>{{ request.student.course }}</b>
+                        <i>Year Of Study: </i> <b>{{ request.student.yearOfStudy }}</b>
+                        <i>Phone No: </i> <b>{{ request.student.phoneNo }}</b>
+                        <i>Email: </i> <b>{{ request.student.user.email }}</b>
+                        <i>Time Applied: </i> <b style="color: #09c009;">{{ request.time_applied }}</b>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light"><a href="{{ request.resume.url }}" target='blank' style="text-decoration: none;">Resume</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <a class="btn btn-primary" href="{% url 'create-general-interview' request.student.pk %}" role="button">Call Interview</a>
+                <a class="btn btn-danger" href="#" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Reject Applicant</a>
+            </div>
+        </article>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                Are You sure You want to delete this request
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a type="button" class="btn btn-danger" href="#" role="button">Reject request</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+{% endblock %}

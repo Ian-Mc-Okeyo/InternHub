@@ -1,10 +1,8 @@
-from dataclasses import fields
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from numpy import require
 
-from company.models import JobApplication
+from company.models import JobApplication, InternShipRequest
 from .models import Student
 
 class StudentRegisterForm(UserCreationForm):
@@ -48,3 +46,10 @@ class ApplyJobForm(forms.ModelForm):
     class Meta:
         model= JobApplication
         fields = ['resume', 'recommendation', 'transcript', 'cover_letter']
+
+class RequestInternshipForm(forms.Form):
+    resume = forms.FileField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'file', 'id': 'customefile'}))
+    #description = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control','placeholder': 'Give a brief description why you will qualify for an Internship opportunity in the company'}))
+
+class SearchCompany(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'list': 'datalistOptions', 'id':"exampleDataList", 'placeholder':"Type to search..."}), required=True)

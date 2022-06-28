@@ -18,7 +18,7 @@
                 <i>Phone No: </i> <b>{{ intern.phoneNo }}</b>
                 <i>Email: </i> <b>{{ intern.user.email }}</b>
             </p>
-            <a class="btn btn-primary" href="#" role="button">Call Interview</a>
+            <a class="btn btn-primary" href="{% url 'create-general-interview' intern.pk %}" role="button">Call Interview</a>
         </div>
     </article>
     {% endfor %}

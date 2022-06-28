@@ -1,0 +1,23 @@
+{% extends 'company/dashboard_base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="content-section row d-flex flex-column align-items-center justify-content-center" style="background-color: rgb(11, 43, 66); border: none">
+        <h4 style="color: #09c009">{{ application.student.user.username }} {{ application.job.title }}</h4>
+        <div class="content-section col-md-6" style="background-color: #ffffffcb;">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <legend class="border-bottom mb-4" style="color: blue">{{ job.title }} Create Interview</legend>
+
+                    {{ form|crispy }}
+
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" typr="submit">Submit</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+            </div>
+        </div>
+    </div>
+{% endblock %}

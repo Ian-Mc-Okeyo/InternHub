@@ -38,8 +38,8 @@
             <div id="myNav" class="overlay">
                 <!-- Overlay content -->
                 <div class="overlay-content">
-                  <a href="#">Home</a>
-                  <a href="#"><b>View Applications</b></a>
+                  <a href="{% url 'company-dashboard' %}">Home</a>
+                  <a href="#"><b>Internship Requests</b></a>
                   <a href="{% url 'company-view-interns' %}"><b>View Available Interns</b></a>
                   <a href="{% url 'post-intern-job' %}"><b>Post Internship Job</b></a>
                   <a href="#"><b>View Applications to your posted Jobs</b></a>
@@ -47,8 +47,8 @@
                 </div>
             </div>
                 <div class="sidebar">
-                    <a class="active" href="#">Home</a>
-                    <a class="nav-item nav-link" href="#"><b>View Applications</b></a>
+                    <a class="active" href="{% url 'company-dashboard' %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'internship-requests' %}"><b>Internship Requests</b></a>
                     <a class="nav-item nav-link" href="{% url 'company-view-interns' %}"><b>View Available Interns</b></a>
                     <a class="nav-item nav-link" href="{% url 'post-intern-job' %}"><b>Post Internship Job</b></a>
                     <a class="nav-item nav-link" href="{% url 'job-applications' %}"><b>View Applications to your posted Jobs</b></a>

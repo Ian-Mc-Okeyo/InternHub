@@ -37,21 +37,21 @@
             <div id="myNav" class="overlay">
                 <!-- Overlay content -->
                 <div class="overlay-content">
-                    <a href="#">Home</a>
-                    <a href="#">My Orders</a>
-                    <a href="#">My Cart</a>
-                    <a href="#">Messages</a>
-                    <a href="#">Change Details</a>
-                    <a href="#">Logout</a>
+                  <a class="active" href="{% url 'student-dashboard' %}">Home</a>
+                  <a class="nav-item nav-link" href="{% url 'view-companies' %}"><b>View Available Companies</b></a>
+                  <a class="nav-item nav-link" href="{% url 'view-feedback' %}"><b>View Company feedback</b></a>
+                  <a class="nav-item nav-link" href="{% url 'view-student-interviews' %}"><b>View Interview Calls</b></a>
+                  <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}"><b>Edit Profile</b></a>
+                  <a class="nav-item nav-link" href="{% url 'view-all-internships' %}"><b>View All Available Internships</b></a>
                 </div>
             </div>
                 <div class="sidebar">
-                    <a class="active" href="#home">Home</a>
+                    <a class="active" href="{% url 'student-dashboard' %}">Home</a>
                     <a class="nav-item nav-link" href="{% url 'view-companies' %}"><b>View Available Companies</b></a>
                     <a class="nav-item nav-link" href="{% url 'view-feedback' %}"><b>View Company feedback</b></a>
                     <a class="nav-item nav-link" href="{% url 'view-student-interviews' %}"><b>View Interview Calls</b></a>
-                    <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}"><b>Edit Profile</b></a>
                     <a class="nav-item nav-link" href="{% url 'view-all-internships' %}"><b>View All Available Internships</b></a>
+                    <a class="nav-item nav-link" href="{% url 'edit-student-profile' %}"><b>Edit Profile</b></a>
                     
                 </div>                  
                   <div class="content" style="margin-top: 20px; text-align: center;">

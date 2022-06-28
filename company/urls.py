@@ -9,5 +9,7 @@ urlpatterns = [
     path('view-job-applications', views.view_company_job_applications, name='job-applications'),
     path('view-job-applicants/<int:param>', views.view_job_applicants, name='job-applicants'),
     path('reject-job-applicant/<int:jobpk>/<int:applpk>', views.reject_job_application, name='reject-application'),
-    path('create-interview/<int:param>', views.createInterview, name='create-interview')
+    path('create-interview/<int:param>', views.createInterview, name='create-interview'),
+    path('view-internship-request', views.view_internship_requests, name='internship-requests'),
+    path('make-general-interview/<int:student_param>', views.create_general_interview, name='create-general-interview')
 ]

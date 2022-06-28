@@ -1,6 +1,24 @@
 {% extends 'student/dashboard_base.html' %}
 {% block body %}
 <br>
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group row g-3 d-flex flex-column align-items-center justify-content-center">
+        <legend class="'border-bottom mb-4" style="color: rgb(6, 202, 6);">Search Company</legend>
+        <div class="col-md-6">
+            {{ form.name }}
+        </div>
+        <datalist id="datalistOptions">
+            {% for company in Companies %}
+                <option value="{{ company.user.username }}">
+            {% endfor %}
+        </datalist>
+    </fieldset>
+    <div class="form-group" style="margin-top: 3px;">
+        <button class="btn btn-outline-info" typr="submit">SEARCH</button>
+    </div>
+    <br>
+</form>
 {% for company in Companies %}
     <article class="media content-section">
         <img  class="rounded-circle article-img" src="{{ company.profilePic.url }}" >
@@ -12,7 +30,7 @@
                 <small class="text-muted">{{ company.city }}</small>
             </div>
             <p class="article-content">{{ company.description }}</p>
-            <a class="btn btn-primary" href="#" role="button">Apply For Internship</a>
+            <a class="btn btn-primary" href="{% url 'request-internship' company.pk %}" role="button">Request Internship</a>
         </div>
     </article>
     {% endfor %}

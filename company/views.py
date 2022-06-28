@@ -4,8 +4,8 @@ from django.contrib.auth import login
 from django.contrib import messages
 
 from student.models import Student
-from .forms import CompanyRegisterForm, CompanyProfileForm, CompanyLoginForm, EditCompanyProfileForm, EditCompanyUserForm, PostInternJobForm, CreateInterviewForm
-from .models import Company, InternJob, Interview, JobApplication
+from .forms import CompanyRegisterForm, CompanyProfileForm, CompanyLoginForm, EditCompanyProfileForm, EditCompanyUserForm, PostInternJobForm, CreateInterviewForm, CreateGeneralInterviewForm
+from .models import Company, GeneralInterview, InternJob, Interview, JobApplication, InternShipRequest
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -172,3 +172,30 @@ def createInterview(request, param):
         'application': application
     }
     return render(request, 'company/create_interview.html', context=context)
+
+@login_required
+def view_internship_requests(request):
+    company = Company.objects.filter(user=request.user).first()
+    intern_requests = InternShipRequest.objects.filter(company=company, feedback='Pending').all()
+    return render(request, 'company/internship_requests.html', {'intern_requests': intern_requests})
+
+@login_required
+def create_general_interview(request, student_param):
+    company = Company.objects.filter(user=request.user).first()
+    student = Student.objects.filter(pk=student_param).first()
+    check_interview = GeneralInterview.objects.filter(company=company, student=student).first()
+    if check_interview:
+        messages.warning(request, 'You already called the Intern for interview')
+        return redirect('company-dashboard')
+    if request.method == 'POST':
+        form = CreateGeneralInterviewForm(request.POST)
+        if form.is_valid():
+            interview = GeneralInterview(company=company, student=student, time=form.cleaned_data.get('time'), description=form.cleaned_data.get('description'), type=form.cleaned_data.get('type'))
+            interview.save()
+            messages.success(request, 'Interview successfully created')
+            return redirect('company-dashboard')
+    else:
+        form=CreateGeneralInterviewForm()
+    return render(request, 'company/make_general_interview.html', {'form': form})
+
+

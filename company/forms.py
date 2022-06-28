@@ -73,3 +73,19 @@ class CreateInterviewForm(forms.Form):
     )
     type = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'placeholder': 'Job Title'}), required=True, label=("Interview type"))
     description = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': 'Kindly list other requirements like skills, Education level and any other the company might require the intern to meet'}))
+
+class CreateGeneralInterviewForm(forms.Form):
+    time = forms.DateTimeField(required=True,
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1',
+            'type': 'datetime-local'
+        })
+    )
+    choices = (
+        ('Online Interview', 'OnlineInterview'),
+        ('Physical Interview', 'PhysicalInterview')
+    )
+    type = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'placeholder': 'Job Title'}), required=True, label=("Interview type"))
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': 'Kindly list other requirements like skills, Education level and any other the company might require the intern to meet'}))

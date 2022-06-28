@@ -1,14 +1,15 @@
+from curses import flash
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import StudentRegisterForm, StudentProfileForm, StudentLoginForm, EditStudentProfileForm, EditStudentUserForm, ApplyJobForm
+from .forms import StudentRegisterForm, StudentProfileForm, StudentLoginForm, EditStudentProfileForm, EditStudentUserForm, ApplyJobForm, RequestInternshipForm, SearchCompany
 from .models import Student
 from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required#for login required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
-from company.models import Company, InternJob, Interview, JobApplication
+from company.models import Company, GeneralInterview, InternJob, Interview, JobApplication, InternShipRequest
 
 def student_missing(request):
     check_student = Student.objects.filter(user=request.user).first()
@@ -112,11 +113,40 @@ def edit_student_profile(request):
         u_form = EditStudentUserForm(instance=request.user)
     return render(request, 'student/edit_student_profile.html', {'p_form': p_form, 'u_form': u_form})
 
-class ListCompanies(LoginRequiredMixin, ListView):
-    model = Company
-    template_name= 'student/view_companies.html'
-    context_object_name = 'Companies'
-    paginate_by = 5
+# class ListCompanies(LoginRequiredMixin, ListView):
+#     model = Company
+#     template_name= 'student/view_companies.html'
+#     context_object_name = 'Companies'
+#     paginate_by = 5
+
+#     def get_context_data(self, **kwargs):
+#         context = super(ListCompanies, self).get_context_data(**kwargs)
+#         context['form'] = SearchCompany()
+#         return context
+
+@login_required
+def ListCompanies(request):
+    Companies = Company.objects.all()
+    if request.method == 'POST':
+        form = SearchCompany(request.POST)
+        if form.is_valid():
+            company_name = form.cleaned_data.get('name')
+            user = User.objects.filter(username=company_name).first()
+            if user:
+                company = Company.objects.filter(user=user).first()
+                if company:
+                    return redirect('view-company', param=company.pk)
+            else:
+                messages.warning(request, 'Company does not exist')
+                return redirect('view-companies')
+    else:
+        form = SearchCompany()
+    context = {
+        'Companies': Companies,
+        'form': form
+
+    }
+    return render(request, 'student/view_companies.html', context=context)
 
 class ListInternships(LoginRequiredMixin, ListView):
     model = InternJob
@@ -231,4 +261,31 @@ def list_student_interviews(request):
     
     student = Student.objects.filter(user=request.user).first()
     interviews = Interview.objects.filter(student=student).all()
-    return render(request, 'student/view_student_views.html', {'interviews': interviews})
+    general_interviews = GeneralInterview.objects.filter(student=student).all()
+    return render(request, 'student/view_student_views.html', {'interviews': interviews, 'general': general_interviews})
+
+@login_required
+def request_internship(request, compk):
+    if student_missing(request):
+       logout(request)
+    
+    student = Student.objects.filter(user = request.user).first()
+    company = Company.objects.filter(pk=compk).first()
+    check_application = InternShipRequest.objects.filter(student=student, company=company).first()
+    if check_application:
+        messages.warning(request, 'You already applied for this job')
+        return redirect('view-companies')
+    
+    if request.method == 'POST':
+        form = RequestInternshipForm(request.POST, request.FILES)
+        if form.is_valid:
+            new_request = InternShipRequest(student=student, company=company, resume=request.FILES['resume'])
+            new_request.save()
+            messages.success(request, 'Request successfully made')
+            return redirect('view-companies')
+        else:
+            for error in form.errors:
+                messages.warning(request, form.errors[error])
+    else:
+        form = RequestInternshipForm()
+    return render(request, 'student/request_internship.html', {'form': form})
