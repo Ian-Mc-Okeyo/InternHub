@@ -37,7 +37,7 @@ def company_login(request):
                 check_student = Student.objects.filter(user=user).first()
                 check_company = Company.objects.filter(user=user).first()#checking if the company has created a company profile
                 if check_student:
-                    messages.warning(request, 'Mbwakni, you are a Student 😡😡!!')
+                    messages.warning(request, 'You are registered as a student')
                     return redirect('student-login')
                 elif check_company:
                     login(request, user)
